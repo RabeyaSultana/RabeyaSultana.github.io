@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body class="container" style="background-color:#18a12c">
+    <h3><i><b>Salary Details</b> </i></h3>
+    <hr style="border:solid 2px;width:125%" />
+    <div ng-init="getallSalary();">
+        <table class="table">
+            <thead style="background-color:#55aed0">
+                <tr>
+                    <th>Employee Id</th>
+                    <!--<th>Basic Pay</th>-->
+                    <th>Home Rent Allowance</th>
+                    <th>Medical Allowance</th>
+                    <th>Convayence</th>
+                    <th>Provident Fund</th>
+                    <th>Tax Pay</th>
+                    <th>Total Earnings</th>
+                    <th>Total Deduction</th>
+                    <th>Net Pay</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="salary in salaries">
+                    <td>{{salary.empId}}</td>
+                    <!--<td>{{salary.BasicPay}}</td>-->
+                    <td>{{salary.HRA}}</td>
+                    <td>{{salary.MedicalAllowance}}</td>
+                    <td>{{salary.Convayence}}</td>
+                    <td>{{salary.ProvidentFund}}</td>
+                    <td>{{salary.Tax}}</td>
+                    <td>{{salary.TotalEarnings}}</td>
+                    <td>{{salary.TotalDeduction}}</td>
+                    <td>{{salary.NetPay}}</td>
+                    <td>
+                        <button id="btnDel" type="submit" class="btn btn-danger" ng-click="removeSalary(salary.SalaryId);">Delete</button>
+                    </td>
+                </tr>
+               
+            </tbody>
+           
+        </table>
+        <footer style="background-color:#55aed0; width:125%">***</footer>
+    </div>
+   
+</body>
+</html>

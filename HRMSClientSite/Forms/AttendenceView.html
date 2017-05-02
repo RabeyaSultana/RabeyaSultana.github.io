@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body ng-init="allAttendenceView();">
+    <strong>Search By Full Name:</strong>
+    <input type="text" id="txtAny" style="text-align:left" ng-model="searchAny" placeholder="Search by any field" ng-keyup="allAttendenceView();">
+    <div>
+
+        <div dir-paginate="at in Atten|filter:searchAny|orderBy:predicate:reverse|itemsPerPage:3">
+            <!--<div>
+                <div ng-init="allAttendenceView();">-->
+            <fieldset>
+                <legend style="text-align:center"><b><i>Attendence View</i></b></legend>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Employee Id</th>
+                            <th>Name</th>
+                            <th>Designation</th>
+                            <th>Stutas</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+
+                            <td><label>{{at.empId}}</label></td>
+
+                            <td><label>{{at.eName}}</label></td>
+
+                            <td><label>{{at.eDesignation}}</label></td>
+
+
+                            <td><label>{{at.Status}}</label></td>
+
+
+                            <td><label>{{at.aDate}}</label></td>
+
+
+                            <td><label>{{at.aTime}}</label></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </fieldset>
+        </div>
+        <dir-pagination-controls max-size="2" direction-links="true" boundary-links="true">
+        </dir-pagination-controls>
+    </div>
+
+</body>
+</html>

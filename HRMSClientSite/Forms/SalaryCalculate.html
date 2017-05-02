@@ -1,0 +1,180 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+
+    <link href="../Content/bootstrap.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-1.9.1.js"></script>
+    <script src="../Scripts/bootstrap.js"></script>
+
+
+
+</head>
+<body>
+
+    <form style="margin-right:5%;margin-left:3%;margin-bottom:2%">
+        <div class="form-horizontal" style="background-color:#c8dbe6">
+            <fieldset>
+                <legend style="text-align:center; color:rgba(101, 3, 112, 0.87)">Salary Calculation</legend>
+                    <table class="table">
+                        <tr>
+
+                            <td>
+                                <label class="col-md-2 control-label">Date:</label>
+                                <label class="col-md-1 control-label">{{ShowDate | date:'dd/MM/yyyy'}}</label>
+                            </td>
+                        </tr>
+                    </table>
+                    <!---------------------------------------------------------------------->
+                    <table class="table">
+                        <tr>
+                            <td>
+                                <!--<label class="col-md-2 control-label" for="textinput">Salary ID</label>-->
+                                <!--<div class="col-md-2">
+                        <input id="txtsId" name="txtsId" type="text" ng-model="currentSal.SalaryId" placeholder="" class="form-control input-md" disabled>-->
+                <!--</div><br /><br />-->
+                                <label class="col-md-2 control-label" for="txtMonth">Select Month</label>
+                                <div class="col-md-2">
+                                    <select ng-model="selectedItem" ng-options="monthName.name for monthName in monthNames track by monthName.name"></select>
+                                </div><br /><br />
+                            <div class="form-group" ng-init="getallEmpDetails();">
+                                <label for="input5" class="col-md-2 control-label">Employee Id</label>
+                                <div class="col-md-3">
+
+                                    <select ng-model="currentSal.empId" ng-change="queryEmpDetails(emp);">
+                                        <option label="--Please Select--"></option>
+                                        <option ng-repeat="emp in employees">
+                                            {{emp.empId}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <label class="col-md-2 control-label" for="textinput">Employee Name</label>
+                            <div class="col-md-2">
+                                <input id="txtempName" name="txtempName" type="text" ng-model="currentSal.empName" placeholder="" class="form-control input-md">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <hr />
+                <!---------------------------------------------------------------------->
+                <table class="table">
+                    <tr>
+
+                        <td>
+                            <h3 style="text-align:left">Earnning</h3>
+                            <label class="col-md-2 control-label" for="textinput">Basic Pay</label>
+                            <div class="col-md-2">
+                                <input id="BasicPay" ng-model="currentSal.empBasicPay" type="text" placeholder="" class="form-control input-md">
+                            </div><br /><br />
+                            <label class="col-md-2 control-label" for="textinput">HRA</label>
+                            <div class="col-md-2">
+                                <input id="txtTalHra" ng-model="currentSal.HRA" type="text" placeholder="" class="form-control input-md">
+                            </div><br /><br />
+                            <label class="col-md-2 control-label" for="txtRe">Medical Allowance</label>
+                            <div class="col-md-2">
+                                <input id="txtMdclAlw" ng-model="currentSal.MedicalAllowance" type="text" placeholder="" class="form-control input-md">
+                            </div><br /><br />
+                            <label class="col-md-2 control-label" for="txtRe">Convayence</label>
+                            <div class="col-md-2">
+                                <input id="txtConvayence" ng-model="currentSal.Convayence" type="text" placeholder="" class="form-control input-md">
+                            </div>
+                            <div style="text-align:right">
+                                <label class="col-md-2 control-label" for="txtTalErn">Per Day Total Earnings</label>
+                                <div class="col-md-2">
+                                    <input id="txtTalErn" name="txtTalErn" ng-model="currentSal.TotalEarnings" type="text" placeholder="" class="form-control input-md">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <!---------------------------------------------------------------------->
+
+                <table class="table">
+                    <tr>
+                        <td>
+                            <h3 style="text-align:left">Deduction</h3>
+                            <label class="col-md-2 control-label" for="txtPrftFund">Provident Fund</label>
+                            <div class="col-md-2">
+                                <input id="txtPrftFund" name="txtPrftFund" ng-model="currentSal.ProvidentFund" type="text" placeholder="" class="form-control input-md">
+                            </div><br /><br />
+                            <label class="col-md-2 control-label" for="txtTax">Tax Pay</label>
+                            <div class="col-md-2">
+                                <input id="txtTax" name="txtAdvance" type="text" ng-model="currentSal.Tax" placeholder="" class="form-control input-md">
+                            </div>
+                            <div style="text-align:right">
+                                <label class="col-md-2 control-label" for="txtTalDuc">Per Day Total Deduction</label>
+                                <div class="col-md-2">
+                                    <input id="txtTalDed" name="txtTalDed" ng-model="currentSal.TotalDeduction" type="text" placeholder="" class="form-control input-md">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="table">
+                    <tr>
+                        <td>
+                            <h3 style="text-align:left">Employee Working Days</h3>
+                            <!--<label class="col-md-2 control-label" for="txtMonth">Select Month</label>
+                            <div class="col-md-2">
+                                <select ng-model="selectedItem" ng-options="monthName.name for monthName in monthNames track by monthName.name"></select>
+                            </div><br /><br />-->
+                            <label class="col-md-2 control-label" for="txtTalDays">Working Days</label>
+                            <div class="col-md-2">
+                                <input type="text" name="field" ng-model="selectedItem.days" class="form-control" ng-pattern="" required />
+                            </div><br /><br />
+                            <label class="col-md-2 control-label" for="txtTalDays">HoliDays</label>
+                            <div class="col-md-2">
+                                <input type="text" name="field" ng-model="selectedItem.Hdays" class="form-control" ng-pattern="" required />
+                            </div><br /><br />
+                            <label class="col-md-2 control-label" for="txtWorDays">Present Days</label>
+                            <div class="col-md-2">
+                                <input id="txtWorDays" name="txtWorDays" ng-model="currentSal.TotalPresent" type="text" placeholder="" class="form-control input-md">
+                            </div><br /><br />
+                            <label class="col-md-2 control-label" for="txtAbsnDays">Absent Days</label>
+                            <div class="col-md-2">
+                                <input id="txtAbsnDays" name="txtAbsnDays" ng-model="currentSal.AbsentDay" type="text" placeholder="" class="form-control input-md">
+                            </div>
+                            <div style="text-align:right">
+                                <label class="col-md-2 control-label" for="txtgrossPay">Per Day Gross Pay</label>
+                                <div class="col-md-2">
+                                    <input id="txtgrossPay" name="txtgrossPay" ng-model="currentSal.grossPay" type="text" placeholder="" class="form-control input-md">
+                                </div>
+                            </div><br /><br />
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="table">
+                    <tr>
+
+                        <td>
+                            <div>
+                                <label class="col-md-6 control-label" for="txtNetPay">Net Salary on present days</label>
+                                <div class="col-md-4">
+                                    <input id="txtNetPay" name="txtNetPay" ng-model="currentSal.NetPay" type="text" placeholder="Click Here to Net Payment" class="form-control input-md" ng-click="RastioHRA(currentSal.empBasicPay);">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <!---------------------------------------------------------------------->
+
+                <div>
+                    <label class="col-md-4 control-label" for="txtSave"></label>
+                    <button id="btnSave" type="button" class="btn btn-success glyphicon-save col-sm-3" ng-click="saveSalary();">Save</button>
+
+                </div>
+            </fieldset>
+        </div>
+      
+
+    </form>
+
+
+</body>
+</html>
+

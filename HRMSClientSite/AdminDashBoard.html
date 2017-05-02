@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        HRMS
+    </title>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <script src="Scripts/jquery-1.9.1.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+    <script src="Scripts/angular.js"></script>
+    <script src="Scripts/angular-route.js"></script>
+    <script src="Scripts/angular-resource.js"></script>
+    <script src="Scripts/angular-messages.js"></script>
+    <script src="Scripts/angular-cookies.js"></script>
+
+    <script src="Scripts/App/app.js"></script>
+    <script src="Scripts/Controller/routeCtrl.js"></script>
+    <script src="Scripts/Controller/hrmCtrl.js"></script>
+    <script src="Scripts/Factory/hrmSvc.js"></script>
+    <script src="Scripts/dirPagination.js"></script>
+    <script src="Scripts/Controller/accCtrl.js"></script>
+
+</head>
+<body class="container">
+    <form>
+
+
+        <img src="images/002.jpg" style="width:100%; height:250px" />
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                  
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="/"><b>Home</b></a></li>
+                    <li>
+                        <a href="#/canList"><b>Applicant List</b></a>
+                    </li>
+                    <li>
+                        <a href="#/empdetail"><b>Employee</b></a>
+                    </li>
+                    <li>
+                        <a href="#/jobposted"><b>Job Posting</b></a>
+                    </li>
+                    <li>
+                        <a href="#/JobList"><b>Circuler</b></a>
+                    </li>
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Salary
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#/salaryCal"><b>Salary Calulation</b></a>
+                            </li>
+                            <li>
+                                <a href="#/salary"><b>Salary Details</b></a>
+
+                            </li>
+                            <li>
+                                <a href="#/salaryStr"><b>Salary Report</b></a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    <li>
+                        <a href="#/AttenView"><b>Attendence List</b></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container">
+            <div ng-view></div>
+
+
+        </div>
+    </form>
+</body>
+</html>
+
+

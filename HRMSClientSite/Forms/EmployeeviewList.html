@@ -1,0 +1,56 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <title></title>
+
+
+    <link href="../Content/bootstrap.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-1.9.1.js"></script>
+    <script src="../Scripts/bootstrap.js"></script>
+    <!--<script src="../Scripts/angular.js"></script>-->
+
+
+
+</head>
+<body class="container" style="background-color:#18a12c">
+
+    <div>
+        <p>
+            <strong>Search By Id:</strong>
+            <input type="text" id="txtAny" style="text-align:left" ng-model="search.empId" placeholder="Search by Id" ng-keyup="queryEmpDetailsView();" />
+        </p>
+        <table class="table">
+            <thead style="background-color:#aad7f7">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Designation</th>
+                    <th>Mobile No</th>
+                    <th>Email</th>
+                    <th>Basic Pay</th>
+                    <th>Net Pay</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr dir-paginate="empV in list|filter:search|orderBy:predicate:reverse|itemsPerPage:1">
+                    <td>{{empV.empId}}</td>
+                    <td>{{empV.eName}}</td>
+                    <td>{{empV.eDesignation}}</td>
+                    <td>{{empV.eMobile}}</td>
+                    <td>{{empV.eEmail}}</td>
+                    <td>{{empV.BasicPay}}</td>
+                    <td>{{empV.NetPay}}</td>
+
+                    <!--<td>
+            <button id="btnDel" type="submit" class="btn btn-success" ng-click="removeEmpDetails(emp.empId);">Delete</button> ||
+            <button id="btnEdit" type="submit" class="btn btn-success" ng-click="queryEmpDetails(emp.empId);">Edit</button>
+        </td>-->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    
+
+</body>
+</html>

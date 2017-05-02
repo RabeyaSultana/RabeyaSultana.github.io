@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+
+    <link href="../Content/bootstrap.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-1.9.1.js"></script>
+    <script src="../Scripts/bootstrap.js"></script>
+
+</head>
+<body ng-controller="hrmCtrl">
+    <img src="../images/Attendence.jpg" style="width:100%;height:200px;" />
+    <br />
+    <br />
+    <p style="text-align:center">
+        <strong>Search By ID:</strong>
+        <input type="text" id="txtAny" style="text-align:left" ng-model="search.empId" placeholder="" ng-keyup="getallEmpDetails();" />
+    </p>
+    <div>
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Mobile No</th>
+                        <th>Email</th>
+                        <th>Action</th>
+
+                    </tr>
+                </thead>
+                <tbody dir-paginate="emp in employees|filter:search|orderBy:predicate:reverse|itemsPerPage:1">
+                    <tr>
+                        <td>{{emp.empId}}</td>
+                        <td>{{emp.eName}}</td>
+                        <td>{{emp.eMobile}}</td>
+                        <td>{{emp.eEmail}}</td>
+
+                        <td>
+                            <button id="btnAtten" type="submit" data-toggle="modal" data-target="#myModalAtten" class="btn btn-success" ng-click="queryEmpAtt(emp.empId);">Attendence</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        </div>
+
+    <form class="form-horizontal" style="background-color:gray;margin-bottom:10%">
+
+        <div class="modal fade" tabindex="-8" id="myModalAtten" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="height:400px">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h3 style="text-align: center; font-family:Arial; color: black; font-style: italic">Employee Attendence</h3>
+                    </div>
+
+                    <div>
+
+                        <div class="form-group">
+                            <label class="control-label col-xs-4" for="inputN" style="color:blue;font-style:italic;font-size:medium">Employee Id:</label>
+                            <div class="col-xs-4">
+                                <input type="text" class="form-control" id="inputId" name="inputId" ng-model="currentAtten.empId" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-xs-4" for="inputN" style="color:blue;font-style:italic;font-size:medium">Employee Name:</label>
+                            <div class="col-xs-4">
+                                <input style="" type="text" class="form-control" id="inputName" ng-model="currentAtten.eName" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-4" for="inputN" style="color:blue;font-style:italic;font-size:medium">Date:</label>
+                            <div class="col-xs-4">
+                                {{ShowDate|date:'dd/MM/yyyy'}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-4" for="inputN" style="color:blue;font-style:italic;font-size:medium">Time:</label>
+                        <div class="col-xs-4">
+
+                            <label > <b>{{ShowDate|date:'hh:mm:ss a'}}</b></label>
+</div>
+                    </div>
+
+                       <div>
+                           <label class ="control-label col-xs-4" for="inputN" style="color:blue;font-style:italic;font-size:medium">
+                               Status</label>
+                               <div class="col-md-5">
+                                   <select ng-model="currentAtten.Status">
+                                       <option label="Select Option"></option>
+                                       <option value="1">Present</option>
+                                       <option value="0">Absent</option>
+
+                                   </select>
+                               </div>
+                               <input type="button" value="Save" ng-click="saveAttendence();" />
+</div>
+                    
+            </div>
+
+        </div>
+        
+        </div>
+    </form>
+</body>
+</html>

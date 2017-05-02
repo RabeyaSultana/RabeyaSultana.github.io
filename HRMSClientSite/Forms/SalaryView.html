@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Salary Report</title>
+
+</head>
+<body>
+    <p>
+        <strong>Search By Employee Id:</strong>
+        <input type="text" id="txtAny" style="text-align:left" ng-model="search.empId" placeholder="" ng-keyup="showSalary();" />
+    </p><br />
+    <div id="printArea">
+
+        <div dir-paginate="sal in salaryView|filter:search|filter:searchAny|orderBy:predicate:reverse|itemsPerPage:1">
+            <div class="table-bordered " style="height:350px;width:450px; border:3px solid red;margin-left:250px;">
+                <h1 style="text-align:center"><b>Salary Report</b></h1>
+                <div class="table-bordered" style="border:1px solid green;height:100px;width:400px; margin:20px;">
+                    <div>
+                        <label>
+                        Date: {{ShowDate | date:'dd/MM/yyyy'}}<br /></label>
+                    </div>
+                    <div>
+                        <label>Employee Id :</label>
+                        <label>{{sal.empId}}</label>
+                    </div>
+                    <div>
+                        <label>Employee Name :</label>
+                        <label>{{sal.eName}}</label>
+                    </div>
+
+                    <div>
+                        <label>Employee Designation :</label>
+                        <label>{{sal.eDesignation}}</label>
+                    </div>
+                </div>
+                <div class="table-bordered" style="border:1px solid green; height:100px;width:400px;margin:20px;">
+                    <div>
+                        <label>Basic Pay :</label>
+                        <label>{{sal.BasicPay}}</label>
+                    </div>
+
+                    <div>
+                        <label>Total Earning :</label>
+                        <label>{{sal.TotalEarnings}}</label>
+                    </div>
+                    <div>
+                        <label>Total Deduction :</label>
+                        <label>{{sal.TotalDeduction}}</label>
+                    </div>
+                    <div>
+                        <label>Net Pay :</label>
+                        <label>{{sal.NetPay}}</label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div><br /><br />
+    <div class="col-lg-offset-3">
+
+        <button ng-click="printIt()" class="btn  glyphicon-print  col-lg-2" style="color:purple "><strong>Print</strong></button>
+    </div>
+
+
+
+</body>
+</html>
+

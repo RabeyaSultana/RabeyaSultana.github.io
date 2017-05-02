@@ -1,0 +1,766 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <title></title>
+
+
+    <link href="../Content/bootstrap.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-1.9.1.js"></script>
+    <script src="../Scripts/bootstrap.js"></script>
+
+
+
+
+</head>
+<body class="container" style="background-color:#18a12c">
+    <h3><b>Employee Details</b></h3>
+    <hr style="border:solid 2px" />
+    <div ng-init="getallEmpDetails();">
+        <div class="col-sm-2">
+            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
+                Add new Employee
+            </button>
+            <br />
+            <br />
+        </div>
+        <div class="col-sm-11">
+            <p>
+                <label>Search by any</label>
+                <input type="text" id="txtAny" style="text-align:left" ng-model="searchAny" placeholder="" />
+            </p>
+        </div>
+        <table class="table">
+            <thead style="background-color:#78c9f2">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Mobile No</th>
+                    <th>Email</th>
+                    <th>Present Address</th>
+                    <th>Date of join</th>
+                    <th>Photo</th>
+                    <th style="text-align:center">Action</th>
+                </tr>
+            </thead>
+            <tbody dir-paginate="emp in employees|filter:search|filter:searchAny|orderBy:predicate:reverse|itemsPerPage:2">
+                <tr>
+                    <td>{{emp.empId}}</td>
+                    <td>{{emp.eName}}</td>
+                    <td>{{emp.eMobile}}</td>
+                    <td>{{emp.eEmail}}</td>
+                    <td>{{emp.ePresentAddress}}</td>
+                    <td>{{emp.eDOJ |date:'MM-dd-yyyy'}}</td>
+                   
+                    <td>
+                        <img id="picUpdates1" ng-src="data:image/png;base64,{{emp.eImage}}" alt="" width="50" height="50" style="margin-left:10px"/>
+                    </td>
+                    <td>
+                        <button id="btnDel" type="submit" class="btn btn-danger" ng-click="removeEmpDetails(emp.empId);">Delete</button> ||
+                        <button id="btnEdit" type="submit" data-toggle="modal" data-target="#myModalEdit" class="btn btn-warning" ng-click="queryEmp(emp.empId);">Edit</button>||
+                        <button id="btnDetails" type="submit" data-toggle="modal" data-target="#myModalDetails" class="btn btn-primary" ng-click="queryEmp(emp.empId);">Details</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <footer style="background-color:#78c9f2">*</footer>
+    </div>
+    <dir-pagination-controls max-size="2" direction-links="true" boundary-links="true">
+    </dir-pagination-controls>
+    <!---------------EmployeeDetails--------------->
+
+    <form class="form-horizontal" style="background-color:#53d8bb">
+
+        <fieldset>
+
+            <div class="modal fade" tabindex="-1" id="myModalDetails" role="dialog" style="padding-left:50px">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Employee Detail Info</h4>
+                        </div>
+                        
+                            <div class="form-group">
+                                <label for="imginp" class="col-sm-2 control-label">Photo</label>
+                                <div class="col-sm-3">
+                                    <img id="pic" ng-src="data:image/png;base64,{{currentEmp.eImage}}" alt="" width="150" height="150" style="margin-left:50px" />
+                                </div>
+                                    
+                            </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="textinput">Employee Name</label>
+                            <div class="col-md-3">
+                                <input id="txtEn" name="txtEn" type="text" ng-model="currentEmp.eName" placeholder="" class="form-control input-md" disabled>
+                            </div>
+                            <label class="col-md-2 control-label" for="radios">Gender</label>
+                            <div class="col-md-3">
+                                <label class="radio-inline" for="radios-0">
+                                    <input type="radio" name="radios" id="radios-0" value="Male" ng-model="currentEmp.eGender" disabled>
+                                    Male
+                                </label>
+                                <label class="radio-inline" for="radios-0">
+                                    <input type="radio" name="radios" id="radios-1" value="Female" ng-model="currentEmp.eGender" disabled>
+                                    Female
+                                </label>
+                            </div>
+
+                        </div>
+                        <!---------------------------------------------------------------------->
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="textinput">Date Of Birth</label>
+                            <div class="col-md-3">
+                                <input id="txtDOB" ng-model="currentEmp.eDOB" name="txtDOB" type="text" placeholder="Date Of Birth" class="form-control input-md" disabled>
+                            </div>
+                            <label class="col-md-2 control-label" for="radios">MarritalStatus</label>
+                            <div class="col-md-3">
+                                <label class="radio-inline" for="radios-1">
+                                    <input type="radio" name="radiosM" ng-model="currentEmp.MarritualStatus" id="radios-2" value="Married" disabled>
+                                    Married
+                                </label>
+                                <label class="radio-inline" for="radios-1">
+                                    <input type="radio" name="radiosUn" ng-model="currentEmp.MarritualStatus" id="radios-3" value="UnMarried" disabled>
+                                    UnMarried
+                                </label>
+                            </div>
+                        </div>
+
+                        <!------------------------------------------------------------------->
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="txtRe">Religion</label>
+                            <div class="col-md-3">
+                                <!--<input id="txtRe" name="txtRe" ng-model="currentEmp.eReligion" type="text" placeholder="placeholder" class="form-control input-md" disabled>-->
+                                <select class="form-control" ng-model="currentEmp.eReligion" name="relgn">
+                                    <option label="--Select One--"></option>
+                                    <option>Islam</option>
+                                    <option>Hindu</option>
+                                    <option>Christian</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <label class="col-md-2 control-label" for="txtBg">Blood Group</label>
+                            <div class="col-md-3">
+                                <select ng-model="currentEmp.eBloodGroup" disabled>
+                                    <option>Select Option</option>
+                                    <option>A+</option>
+                                    <option>A-</option>
+                                    <option>A+</option>
+                                    <option>AB+</option>
+                                    <option>AB-</option>
+                                    <option>B+</option>
+                                    <option>B-</option>
+                                    <option>O+</option>
+                                    <option>O-</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <!---------------------------------------------------------------------->
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="txtNa">Nationality</label>
+                            <div class="col-md-3">
+                                <input id="txtNa" name="txtNa" ng-model="currentEmp.eNationality" type="text" placeholder="" class="form-control input-md" disabled>
+                            </div>
+
+                            <label class="col-md-2 control-label" for="txtNID">NID Number</label>
+                            <div class="col-md-3">
+                                <input id="txtNID" name="txtNID" ng-model="currentEmp.eNID" type="text" placeholder="" class="form-control input-md" disabled>
+                            </div>
+
+                        </div>
+
+                        <!---------------------------------------------------------------------->
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="txtE">Email Address</label>
+                            <div class="col-md-3">
+                                <input id="txtE" name="txtE" ng-model="currentEmp.eEmail" type="email" placeholder="" class="form-control input-md" disabled>
+                            </div>
+
+                            <label class="col-md-2 control-label" for="txtMn">Mobile Number</label>
+                            <div class="col-md-3">
+                                <input id="txtMn" name="txtMn" ng-model="currentEmp.eMobile" type="text" placeholder="" class="form-control input-md" disabled>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="txtPra">Prasent Address</label>
+                            <div class="col-md-3">
+                                <textarea class="form-control input-md" ng-model="currentEmp.ePresentAddress" id="txtPra" name="textarea" disabled></textarea>
+                            </div>
+                            <label class="col-md-2 control-label" for="txtPer">Permanent Address</label>
+                            <div class="col-md-3">
+                                <textarea class="form-control input-md" ng-model="currentEmp.ePermanentAddress" id="txtPer" name="textarea" disabled></textarea>
+                            </div>
+
+                        </div>
+
+
+                        <!---------------------------------------------------------------------->
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="txtD">Designation</label>
+                            <div class="col-md-3">
+                                <input id="txtD" name="txtD" type="text" ng-model="currentEmp.eDesignation" placeholder="" class="form-control input-md" disabled>
+                                
+                                </div>
+                            <label class="col-md-2 control-label" for="txtDOJ">Basic Pay</label>
+                            <div class="col-md-3">
+                                <input id="txtDOJ" name="txtDOJ" type="text" ng-model="currentEmp.BasicPay" placeholder="" class="form-control input-md" disabled>
+
+                            </div>
+                        </div>
+
+                        <!---------------------------------------------------------------------->
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="txtCp">Contact Person</label>
+                            <div class="col-md-3">
+                                <input id="txtCp" name="txtCp" ng-model="currentEmp.eContactPerson" type="text" placeholder="" class="form-control input-md" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" for="txtDOJ">Date Of Join</label>
+                                <div class="col-md-3">
+                                    <input id="txtDOJ" name="txtDOJ" type="text" ng-model="currentEmp.eDOJ" placeholder="Date Of Birth" class="form-control input-md" disabled>
+                                </div>
+
+                            </div>
+
+                        <!---------------------------------------------------------------------->
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="radios">Loan</label>
+                            <div class="col-md-3">
+                                <label class="radio-inline" for="radios-0">
+                                    <input type="radio" name="radiosYes" id="radios-4" value="Yes" ng-model="currentEmp.eLoan">
+                                    Yes
+                                </label>
+                                <label class="radio-inline" for="radios-1">
+                                    <input type="radio" name="radiosNo" id="radios-5" value="No" ng-model="currentEmp.eLoan">
+                                    No
+                                </label>
+                            </div>
+                            <label class="col-md-2 control-label" for="radios">ExtraCurriculam</label>
+                            <div class="col-md-3">
+                                <label class="radio-inline" for="radios-0">
+                                    <input type="radio" name="radiosEy" id="radios-4" value="Yes" ng-model="currentEmp.eExteaCurriculam" disabled>
+                                    Yes
+                                </label>
+                                <label class="radio-inline" for="radios-1">
+                                    <input type="radio" name="radiosEn" id="radios-5" value="No" ng-model="currentEmp.eExteaCurriculam" disabled>
+                                    No
+                                </label>
+                            </div>
+                        </div>
+
+
+                        <!---------------------------------------------------------------------->
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="txtQ">Last Qualification</label>
+                            <div class="col-md-3">
+                                <input id="txtQ" name="txtQ" ng-model="currentEmp.eQualification" type="text" placeholder="Date Of Birth" class="form-control input-md" disabled>
+                            </div>
+                            <label class="col-md-2 control-label" for="txtEx">Experience</label>
+                            <div class="col-md-3">
+                                <input id="txtEx" name="txtEx" ng-model="currentEmp.eExperience" type="text" placeholder="" class="form-control input-md" disabled>
+                            </div>
+                        </div>
+                        <!---------------------------------------------------------------------->
+
+                    </div>
+                </div>
+            </div>
+                </div>
+        </fieldset>
+    </form>
+
+
+
+    <!---------------------EditModel--------------------->
+
+
+    <form class="form-horizontal" style="background-color:#53d8bb">
+        <fieldset>
+
+            <div class="modal fade" tabindex="-1" id="myModalEdit" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Employee Detail Info</h4>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="textinput">Employee Name</label>
+                            <div class="col-md-3">
+                                <input id="txtEn" name="txtEn" type="text" ng-model="currentEmp.eName" placeholder="" class="form-control input-md">
+                            </div>
+
+
+                            <label class="col-md-2 control-label" for="radios">Gender</label>
+                            <div class="col-md-3">
+                                <label class="radio-inline" for="radios-0">
+                                    <input type="radio" name="radios" id="radios-0" value="Male" ng-model="currentEmp.eGender">
+                                    Male
+                                </label>
+                                <label class="radio-inline" for="radios-0">
+                                    <input type="radio" name="radios" id="radios-1" value="Female" ng-model="currentEmp.eGender">
+                                    Female
+                                </label>
+                            </div>
+
+                        </div>
+                        <!---------------------------------------------------------------------->
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="textinput">Date Of Birth</label>
+                            <div class="col-md-2">
+                                <input id="txtDOB" ng-model="currentEmp.eDOB" name="txtDOB" type="text" placeholder="Date Of Birth" class="form-control input-md">
+                            </div>
+                            <label class="col-md-2 control-label" for="radios">MarritalStatus</label>
+                            <div class="col-md-3">
+                                <label class="radio-inline" for="radios-1">
+                                    <input type="radio" name="radiosM" ng-model="currentEmp.MarritualStatus" id="radios-2" value="Married">
+                                    Married
+                                </label>
+                                <label class="radio-inline" for="radios-1">
+                                    <input type="radio" name="radiosUn" ng-model="currentEmp.MarritualStatus" id="radios-3" value="UnMarried">
+                                    UnMarried
+                                </label>
+                            </div>
+                        </div>
+
+                        <!---------------------------------------------------------------------->
+
+                        <div class="form-group">
+                            
+                            <label class="col-md-2 control-label" for="txtRe">Religion:</label>
+                                <div class="col-xs-3">
+                                    <select class="form-control" ng-model="currentEmp.eReligion" name="relgn">
+                                        <option label="--Select One--"></option>
+                                        <option>Islam</option>
+                                        <option>Hindu</option>
+                                        <option>Cristan</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                            
+                            <label class="col-md-2 control-label" for="txtBg">Blood Group</label>
+                            <div class="col-md-3">
+                                <select ng-model="currentEmp.eBloodGroup">
+                                    <option label="--Select One--"></option>
+                                    <option>A+</option>
+                                    <option>A-</option>
+                                    <option>A+</option>
+                                    <option>AB+</option>
+                                    <option>AB-</option>
+                                    <option>B+</option>
+                                    <option>B-</option>
+                                    <option>O+</option>
+                                    <option>O-</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <!---------------------------------------------------------------------->
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="txtNa">Nationality</label>
+                            <div class="col-md-3">
+                                <input id="txtNa" name="txtNa" ng-model="currentEmp.eNationality" type="text" placeholder="" class="form-control input-md">
+                            </div>
+
+                            <label class="col-md-2 control-label" for="txtNID">NID Number</label>
+                            <div class="col-md-3">
+                                <input id="txtNID" name="txtNID" ng-model="currentEmp.eNID" type="text" placeholder="" class="form-control input-md">
+                            </div>
+
+                        </div>
+
+                        <!---------------------------------------------------------------------->
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="txtE">Email Address</label>
+                            <div class="col-md-3">
+                                <input id="txtE" name="txtE" ng-model="currentEmp.eEmail" type="email" placeholder="" class="form-control input-md">
+                            </div>
+
+                            <label class="col-md-2 control-label" for="txtMn">Mobile Number</label>
+                            <div class="col-md-3">
+                                <input id="txtMn" name="txtMn" ng-model="currentEmp.eMobile" type="text" placeholder="" class="form-control input-md">
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="txtPra">Prasent Address</label>
+                            <div class="col-md-3">
+                                <textarea class="form-control input-md" ng-model="currentEmp.ePresentAddress" id="txtPra" name="textarea"></textarea>
+                            </div>
+                            <label class="col-md-2 control-label" for="txtPer">Permanent Address</label>
+                            <div class="col-md-3">
+                                <textarea class="form-control input-md" ng-model="currentEmp.ePermanentAddress" id="txtPer" name="textarea"></textarea>
+                            </div>
+
+                        </div>
+
+
+                        <!---------------------------------------------------------------------->
+
+                        <div class="form-group">
+                            
+                            <label class="col-md-2 control-label" for="txtD">Designation</label>
+                            <div class="col-md-3">
+                                <input id="txtD" name="txtD" type="text" ng-model="currentEmp.eDesignation" placeholder="" class="form-control input-md">
+                            </div>
+                                <label class="col-md-2 control-label" for="txtDOJ">Basic Pay</label>
+                                <div class="col-md-3">
+                                    <input id="txtDOJ" name="txtDOJ" type="text" ng-model="currentEmp.BasicPay" placeholder="" class="form-control input-md">
+
+                                </div>
+                            
+                        </div>
+
+                        <!---------------------------------------------------------------------->
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="txtCp">Contact Person</label>
+                            <div class="col-md-3">
+                                <input id="txtCp" name="txtCp" ng-model="currentEmp.eContactPerson" type="text" placeholder="" class="form-control input-md">
+                            </div>
+
+                            <label class="col-md-2 control-label" for="txtDOJ">Date Of Join</label>
+                            <div class="col-md-3">
+                                <input id="txtDOJ" name="txtDOJ" type="text" ng-model="currentEmp.eDOJ" placeholder="Date Of Birth" class="form-control input-md">
+                            </div>
+                            </div>
+                      
+
+                        <!---------------------------------------------------------------------->
+
+                        <div class="form-group">
+                            <<label class="col-md-2 control-label" for="radios">Loan</label>
+<div class="col-md-3">
+    <label class="radio-inline" for="radios-0">
+        <input type="radio" name="radiosYes" id="radios-4" value="Yes" ng-model="currentEmp.eLoan">
+        Yes
+    </label>
+    <label class="radio-inline" for="radios-1">
+        <input type="radio" name="radiosNo" id="radios-5" value="No" ng-model="currentEmp.eLoan">
+        No
+    </label>
+</div>
+                            <label class="col-md-2 control-label" for="radios">ExtraCurriculam</label>
+                            <div class="col-md-3">
+                                <label class="radio-inline" for="radios-0">
+                                    <input type="radio" name="radiosEy" id="radios-4" value="Yes" ng-model="currentEmp.eExteaCurriculam">
+                                    Yes
+                                </label>
+                                <label class="radio-inline" for="radios-1">
+                                    <input type="radio" name="radiosEn" id="radios-5" value="No" ng-model="currentEmp.eExteaCurriculam">
+                                    No
+                                </label>
+                            </div>
+                        </div>
+
+
+                        <!---------------------------------------------------------------------->
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="txtQ">Last Qualification</label>
+                            <div class="col-md-3">
+                                <input id="txtQ" name="txtQ" ng-model="currentEmp.eQualification" type="text" placeholder="Date Of Birth" class="form-control input-md">
+                            </div>
+                            <label class="col-md-2 control-label" for="txtEx">Experience</label>
+                            <div class="col-md-3">
+                                <input id="txtEx" name="txtEx" ng-model="currentEmp.eExperience" type="text" placeholder="" class="form-control input-md">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="imginp" class="col-sm-2 control-label">Photo</label>
+                            <div class="col-sm-5">
+                                <img id="pic" ng-src="data:image/png;base64,{{currentEmp.eImage}}" alt="" width="150" height="150" style="margin-right:50px;" />
+                                <input type="file" class="form-control" id="imginp" onchange="readURL(this,'pic');" name="eImage" ng-model="currentEmp.eImage">
+                            </div>
+                        </div>
+
+                        <!---------------------------------------------------------------------->
+
+                        <div class="form-group">
+                            <div class="col-md-5">
+                                <button id="btnUpdate" type="button" class="btn btn-primary" ng-click="updateEmpDetails();">Update</button>
+                            </div>
+                        </div>
+
+                    </div> <!--/.modal-dialog-->
+                </div>
+            </div>
+        </fieldset>
+    </form>
+
+
+    <!-------------------------ADD Employee-------------------------->
+
+
+
+    <form name="form3" novalidate class="form-horizontal" style="background-color:#53d8bb">
+        <fieldset>
+            <!--<legend style="text-align:center; color:rgba(101, 3, 112, 0.87)">Employee Details Information</legend>-->
+            <div class="modal fade" tabindex="-1" id="myModal" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Employee Detail Info</h4>
+                        </div>
+                        <!--<label class="col-md-3 control-label" for="textinput">Employee ID</label>
+                        <div class="col-md-3">
+                            <input id="txtEn" name="txtEn" type="text" ng-model="current.empId" placeholder="" class="form-control input-md">
+                        </div>-->
+                        <div class="form-group" ng-class="{'has-error':form3.Name.$invalid &&
+                                 form3.Name.$dirty}">
+                            <label class="col-md-2 control-label" for="textinput">Employee Name</label>
+                            <div class="col-md-3">
+                                <input id="txtEn" name="Name" type="text" ng-model="currentEmp.eName" placeholder="" class="form-control input-md" ng-maxlength="20" ng-minlength="4" required>
+                                <span class="help-block has-error">
+                                    <span ng-show="form3.Name.$error.required">Employee name is required</span>
+                                    <span ng-show="form3.Name.$error.minlength">Employee name is must be atleast 4 charecters in length</span>
+                                    <span ng-show="form3.Name.$error.maxlength">Employee name is can not exceed 20 charecters in length</span>
+                                </span>
+                            </div>
+
+
+                            <label class="col-md-2 control-label" for="radios">Gender</label>
+                            <div class="col-md-3">
+                                <label class="radio-inline" for="radios-0">
+                                    <input type="radio" name="radios" id="radios-0" value="Male" ng-model="currentEmp.eGender">
+                                    Male
+                                </label>
+                                <label class="radio-inline" for="radios-0">
+                                    <input type="radio" name="radios" id="radios-1" value="Female" ng-model="currentEmp.eGender">
+                                    Female
+                                </label>
+                            </div>
+
+                        </div>
+                        <!---------------------------------------------------------------------->
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="textinput">Date Of Birth</label>
+                            <div class="col-md-4">
+                                <input id="txtDOB" ng-model="currentEmp.eDOB" name="txtDOB" type="date" placeholder="Date Of Birth" class="form-control input-md">
+                            </div>
+                            <label class="col-md-2 control-label" for="radios">MarritalStatus</label>
+                            <div class="col-md-3">
+                                <label class="radio-inline" for="radios-1">
+                                    <input type="radio" name="radiosM" ng-model="currentEmp.MarritualStatus" id="radios-2" value="Married">
+                                    Married
+                                </label>
+                                <label class="radio-inline" for="radios-1">
+                                    <input type="radio" name="radiosUn" ng-model="currentEmp.MarritualStatus" id="radios-3" value="UnMarried">
+                                    UnMarried
+                                </label>
+                            </div>
+                        </div>
+
+                        <!---------------------------------------------------------------------->
+
+                        <div class="form-group">
+                            
+                            <label class="col-md-2 control-label" for="txtRe">Religion:</label>
+                                <div class="col-xs-3">
+                                    <select class="form-control" ng-model="currentEmp.eReligion" name="relgn">
+                                        <option label="--Select One--"></option>
+                                        <option>Islam</option>
+                                        <option>Hindu</option>
+                                        <option>Cristan</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                            
+                            <label class="col-md-2 control-label" for="txtBg">Blood Group</label>
+                            <div class="col-md-3">
+                                <select ng-model="currentEmp.eBloodGroup">
+
+                                    <option label="--Select One--"></option>
+                                    <option>A+</option>
+                                    <option>A-</option>
+                                    <option>A+</option>
+                                    <option>AB+</option>
+                                    <option>AB-</option>
+                                    <option>B+</option>
+                                    <option>B-</option>
+                                    <option>O+</option>
+                                    <option>O-</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <!---------------------------------------------------------------------->
+
+                        <div>
+                            <div class="form-group" ng-class="{'has-error':form3.Nation.$invalid &&
+                                 form3.Nation.$dirty}">
+                                <label class="col-md-2 control-label" for="txtNa">Nationality</label>
+                                <div class="col-md-6">
+                                    <input id="txtNa" name="Nation" ng-model="currentEmp.eNationality" type="text" placeholder="" class="form-control input-md" required>
+                                    <span class="help-block has-error">
+                                        <span ng-show="form3.NID.$error.required">Nationality is required</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group" >
+                                <label class="col-md-2 control-label" for="txtNID">NID Number</label>
+                                <div class="col-md-6">
+                                    <input id="txtNID" name="NID" ng-model="currentEmp.eNID" type="text" placeholder="" class="form-control input-md">
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <!---------------------------------------------------------------------->
+
+                        <div class="form-group" ng-class="{'has-error':form3.Email.$invalid &&
+                                 form3.Email.$dirty}">
+                            <label class="col-md-2 control-label" for="txtE">Email Address</label>
+                            <div class="col-md-3">
+                                <input id="txtE" name="Email" ng-model="currentEmp.eEmail" type="email" placeholder="" class="form-control input-md" required>
+                                <span class="help-block has-error">
+                                    <span ng-show="form3.Email.$error.required">Mail address is required</span>
+                                    <span ng-show="form3.Email.$error.email">Invalid email Address</span>
+                                </span>
+                            </div>
+
+                            <label class="col-md-2 control-label" for="txtMn">Mobile Number</label>
+                            <div class="col-md-3">
+                                <input id="txtMn" name="Mobile" ng-model="currentEmp.eMobile" type="text" placeholder="" class="form-control input-md" required>
+                                <span class="help-block has-error">
+                                    <span ng-show="form3.Mobile.$error.required">Mobile Number is required</span>
+
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group" ng-class="{'has-error':form3.Prasent.$invalid &&
+                                 form3.Prasent.$dirty}">
+                            <label class="col-md-2 control-label" for="txtPra">Prasent Address</label>
+                            <div class="col-md-3">
+                                <textarea class="form-control input-md" ng-model="currentEmp.ePresentAddress" id="txtPra" name="Prasent" required></textarea>
+                                <span class="help-block has-error">
+                                    <span ng-show="form3.Prasent.$error.required">Prasent Address is required</span>
+                                </span>
+                            </div>
+                            <label class="col-md-2 control-label" for="txtPer">Permanent Address</label>
+                            <div class="col-md-3">
+                                <textarea class="form-control input-md" ng-model="currentEmp.ePermanentAddress" id="txtPer" name="Permanent" required></textarea>
+                                <span>
+                                    <span ng-show="form3.Permanent.$error.required">Permanent Address is required</span>
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!---------------------------------------------------------------------->
+
+                        <div class="form-group" ng-class="{'has-error':form3.Designation.$invalid &&
+                                 form3.Designation.$dirty}">
+                            <label class="col-md-2 control-label" for="txtD">Designation</label>
+                            <div class="col-md-3">
+                                <input id="txtD" name="Designation" type="text" ng-model="currentEmp.eDesignation" placeholder="" class="form-control input-md" required>
+                                <span class="help-block has-error">
+                                    <span ng-show="form3.Designation.$error.required">Designation Address is required</span>
+                                </span>
+                            </div>
+                            <label class="col-md-2 control-label" for="txtDOJ">Date Of Join</label>
+                            <div class="col-md-4">
+                                <input id="txtDOJ" name="txtDOJ" type="date" ng-model="currentEmp.eDOJ" placeholder="" class="form-control input-md" required>
+                            </div>
+
+                        </div>
+
+                        <!---------------------------------------------------------------------->
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="txtCp">Contact Person</label>
+                            <div class="col-md-3">
+                                <input id="txtCp" name="txtCp" ng-model="currentEmp.eContactPerson" type="text" placeholder="" class="form-control input-md">
+                            </div>
+                            <label class="col-md-2 control-label" for="txtDOJ">Basic Pay</label>
+                            <div class="col-md-3">
+                                <input id="txtDOJ" name="txtDOJ" type="text" ng-model="currentEmp.BasicPay" placeholder="" class="form-control input-md">
+
+                            </div>
+
+                           
+                        </div>
+
+                        <!---------------------------------------------------------------------->
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="radios">Loan</label>
+                            <div class="col-md-3">
+                                <label class="radio-inline" for="radios-0">
+                                    <input type="radio" name="radiosYes" id="radios-4" value="Yes" ng-model="currentEmp.eLoan">
+                                    Yes
+                                </label>
+                                <label class="radio-inline" for="radios-1">
+                                    <input type="radio" name="radiosNo" id="radios-5" value="No" ng-model="currentEmp.eLoan">
+                                    No
+                                </label>
+                            </div>
+                            <label class="col-md-2 control-label" for="radios">ExtraCurriculam</label>
+                            <div class="col-md-3">
+                                <label class="radio-inline" for="radios-0">
+                                    <input type="radio" name="radiosEy" id="radios-4" value="Yes" ng-model="currentEmp.eExteaCurriculam">
+                                    Yes
+                                </label>
+                                <label class="radio-inline" for="radios-1">
+                                    <input type="radio" name="radiosEn" id="radios-5" value="No" ng-model="currentEmp.eExteaCurriculam">
+                                    No
+                                </label>
+                            </div>
+                        </div>
+
+
+                        <!---------------------------------------------------------------------->
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="txtQ">Last Qualification</label>
+                            <div class="col-md-3">
+                                <input id="txtQ" name="txtQ" ng-model="currentEmp.eQualification" type="text" placeholder="" class="form-control input-md">
+                            </div>
+                            <label class="col-md-2 control-label" for="txtEx">Experience</label>
+                            <div class="col-md-3">
+                                <input id="txtEx" name="txtEx" ng-model="currentEmp.eExperience" type="text" placeholder="" class="form-control input-md">
+                            </div>
+                        </div>
+                        <!---------------------------------------------------------------------->
+
+
+                        <div class="form-group">
+                            <label for="imginp" class="col-sm-2 control-label">Photo</label>
+                            <div class="col-sm-5">
+                                <img id="pic1" ng-src="data:image/png;base64,{{currentEmp.eImage}}" alt="" width="150" height="150" style="margin-left:200px" />
+                                <input type="file" class="form-control" id="imginp" onchange="readURL(this,'pic1')" name="eImage" ng-model="currentEmp.eImage">
+                            </div>
+                        </div>
+                        <!---------------------------------------------------------------------->
+
+                        <div>
+
+                            <button id="btnSave" type="submit" ng-disabled="form3.$invalid" class="btn btn-success" ng-click="saveEmpDetails();">Save</button>
+
+
+                        </div>
+
+                    </div> <!--/.modal-dialog-->
+                </div>
+            </div>
+            
+        </fieldset>
+    </form>
+</body>
+</html>

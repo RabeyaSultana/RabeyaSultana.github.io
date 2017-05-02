@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+
+    <link href="../Content/bootstrap.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-1.9.1.js"></script>
+    <script src="../Scripts/bootstrap.js"></script>
+
+</head>
+<body>
+    <div>
+        <div ng-init="getallJob();">
+            <h3 style="text-align:center;color:rgba(25, 163, 70, 0.86)">Available Jobs<br />HRMS LTD.</h3>
+            <div style="background-color:#d8d1d1; padding:20px 20px 20px 20px;margin-left:auto;margin-right:150px;margin-bottom:20px;margin-left:150px">
+                <div style="border:solid;border-color:white;padding:inherit" dir-paginate="job in jobpost|filter:search|filter:searchAny|orderBy:predicate:reverse|itemsPerPage:2">
+                    <table class="table">
+                        <tr>
+                            <td>
+                                <div><b>Designation</b></div>
+                                <div>{{job.JobTitle}}</div>
+                            </td>
+                            <td>
+                                <div><b>Last Date For Apply</b></div>
+                                <div>{{job.LastDateForApply |date:'yyyy-MM-dd'}}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div><b>Job Nature</b></div>
+                                <div>
+                                    {{job.JobNature}}
+                                </div>
+                            </td>
+                            <td align="center">
+                                <div>
+                                    <button id="btnDetails" type="submit" data-toggle="modal" data-target="#myModalDetails" class="btn btn-primary" ng-click="queryJob(job.JobId);">Details</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div style="background-color:#d8d1d1; padding:20px 20px 20px 20px;margin-left:auto;margin-right:150px;margin-bottom:20px;margin-left:150px">
+        <div class="modal fade" tabindex="-1" id="myModalDetails" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h3 style="text-align:center;color:rgba(25, 163, 70, 0.86)">Available Jobs<br />HRMS LTD.</h3>
+                    </div>
+                    <div class="modal-body">
+                        <hr style="border:solid" />
+                        <div>
+                            <div><b>Designation</b></div>
+                            <div>{{currentJob.JobTitle}}</div>
+                        </div><br />
+                        <div>
+                            <div><b>Job Nature</b></div>
+                            <div>{{currentJob.JobNature}}</div>
+                        </div><br />
+
+                        <div>
+                            <div><b>Vacancy</b></div>
+                            <div>{{currentJob.Vacancies}}</div>
+                        </div><br />
+                        <div>
+                            <div><b>Job Description / Responsibility</b> </div>
+                            <div>{{currentJob.Descriptions}}</div>
+                        </div><br />
+
+                        <div>
+                            <div><b>Job Publish Date</b></div>
+                            <div>{{currentJob.JobDate |date:'yyyy-MM-dd'}}</div>
+                        </div><br />
+
+                        <div>
+                            <div><b>Last Date For Apply</b></div>
+                            <div>{{currentJob.LastDateForApply |date:'yyyy-MM-dd'}}</div>
+                        </div><br />
+
+                        <div>
+                            <div><b>Job Location</b></div>
+                            <div>{{currentJob.Location}}</div>
+                        </div><br />
+
+                    </div>
+                   
+                </div>
+
+            </div>
+
+        </div>
+
+        <div>
+            <div><a href="#/candetail" style="text-align:center"><h4><b><i>Apply</i></b></h4></a></div>
+        </div>
+    </div>
+</body>
+</html>

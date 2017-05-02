@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+
+    <link href="../Content/bootstrap.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-1.9.1.js"></script>
+    <script src="../Scripts/bootstrap.js"></script>
+
+</head>
+
+<body>
+    <form class="form-horizontal" style="background-color:rgba(79, 169, 246, 0.83)">
+
+        <div>
+            <h2 style="text-align:center">Job Posting </h2>
+        </div>
+        <!--<!--<div class="form-group">
+            <label class="col-md-3 control-label" for="textinput">Job ID :</label>
+            <div class="col-md-6">
+                <input id="txtT" name="txtT" ng-model="currentJob.JobId" type="text" placeholder="" class="form-control input-md" disabled>
+            </div>
+        </div>-->
+      
+        <div class="form-group">
+            <label class="col-md-3 control-label" for="textinput">Job Title:</label>
+            <div class="col-md-6">
+                <input id="txtT" name="txtT" ng-model="currentJob.JobTitle" type="text" placeholder="" class="form-control input-md">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label" for="textinput">Job Nature:</label>
+            <div class="col-md-6">
+                <input id="txtT" name="txtT" ng-model="currentJob.JobNature" type="text" placeholder="" class="form-control input-md">
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-md-3 control-label" for="textinput">Vacancy :</label>
+            <div class="col-md-6">
+                <input id="txtV" name="txtV" ng-model="currentJob.Vacancies" type="text" placeholder="" class="form-control input-md">
+            </div>
+        </div>
+
+
+        <div class="form-group">
+
+            <label class="col-md-3 control-label" for="txtPra">Job Description / Responsibility</label>
+            <div class="col-md-6">
+                <textarea class="form-control input-md" ng-model="currentJob.Descriptions" id="txtDsrc" name="textarea">"\r\n"</textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3 control-label" for="textinput">Job Publish Date :</label>
+            <div class="col-md-6">
+                <input id="txtT" name="txtD" ng-model="currentJob.JobDate" type="date" placeholder="" class="form-control input-md">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3 control-label" for="textinput">Last Date For Apply :</label>
+            <div class="col-md-6">
+                <input id="txtT" name="txtAD" ng-model="currentJob.LastDateForApply" type="date" placeholder="" class="form-control input-md">
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-md-3 control-label" for="textinput">Job Location :</label>
+            <div class="col-md-6">
+                <input id="txtT" name="txtL" ng-model="currentJob.Location" type="text" placeholder="" class="form-control input-md">
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <div class="col-md-5">
+                <input id="Button1" type="submit" class="btn btn-success glyphicon-save" value="Save" ng-click="saveJob();" />
+
+            </div>
+        </div>
+
+
+
+
+    </form>
+</body>
+</html>

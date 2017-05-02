@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        HRMS
+    </title>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <script src="Scripts/jquery-1.9.1.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+    <script src="Scripts/angular.js"></script>
+    <script src="Scripts/angular-route.js"></script>
+    <script src="Scripts/angular-resource.js"></script>
+    <script src="Scripts/angular-messages.js"></script>
+    <script src="Scripts/angular-cookies.js"></script>
+
+    <script src="Scripts/App/app.js"></script>
+    <script src="Scripts/Controller/routeCtrl.js"></script>
+    <script src="Scripts/Controller/hrmCtrl.js"></script>
+    <script src="Scripts/Factory/hrmSvc.js"></script>
+    <script src="Scripts/dirPagination.js"></script>
+    <script src="Scripts/Controller/accCtrl.js"></script>
+
+  
+</head>
+<body>
+
+
+    <img src="images/003.jpg" style="width:100%; height:250px" />
+  
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/"><b>Home</b></a></li>
+                <li>
+                    <a href="#/JobList">Circular</a>
+                </li>
+                <li>
+                    <a href="#/ApplicantCopy">Applicants Copy</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+        <div class="container body-content">
+            <div ng-view></div>
+            <hr />
+            <footer>
+              
+            </footer>
+        </div>
+   
+</body>
+</html>
+
+

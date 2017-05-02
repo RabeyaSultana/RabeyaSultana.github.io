@@ -1,0 +1,486 @@
+﻿<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        Human Resource Management
+    </title>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <script src="Scripts/jquery-1.9.1.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+    <script src="Scripts/angular.js"></script>
+    <script src="Scripts/angular-route.js"></script>
+    <script src="Scripts/angular-resource.js"></script>
+    <script src="Scripts/angular-messages.js"></script>
+    <script src="Scripts/angular-cookies.js"></script>
+
+    <script src="Scripts/App/app.js"></script>
+    <script src="Scripts/Controller/routeCtrl.js"></script>
+
+    <script src="Scripts/Controller/accCtrl.js"></script>
+    <script src="Scripts/Factory/accSvc.js"></script>
+
+    <script src="Scripts/Controller/hrmCtrl.js"></script>
+    <script src="Scripts/Factory/hrmSvc.js"></script>
+
+    <script src="Scripts/dirPagination.js"></script>
+    <style>
+            body,html{
+		height: 100%;
+	}
+
+	/* remove outer padding */
+	.main .row{
+		padding: 0px;
+		margin: 0px;
+	}
+
+	/*Remove rounded coners*/
+
+	nav.sidebar.navbar {
+		border-radius: 0px;
+	}
+
+	nav.sidebar, .main{
+		-webkit-transition: margin 200ms ease-out;
+	    -moz-transition: margin 200ms ease-out;
+	    -o-transition: margin 200ms ease-out;
+	    transition: margin 200ms ease-out;
+	}
+
+	/* Add gap to nav and right windows.*/
+	.main{
+		padding: 10px 10px 0 10px;
+	}
+
+	/* .....NavBar: Icon only with coloring/layout.....*/
+
+	/*small/medium side display*/
+	@media (min-width: 768px) {
+
+		/*Allow main to be next to Nav*/
+		.main{
+			position: absolute;
+			width: calc(100% - 40px); /*keeps 100% minus nav size*/
+			margin-left: 40px;
+			float: right;
+		}
+
+		/*lets nav bar to be showed on mouseover*/
+		nav.sidebar:hover + .main{
+			margin-left: 200px;
+		}
+
+		/*Center Brand*/
+		nav.sidebar.navbar.sidebar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {
+			margin-left: 0px;
+		}
+		/*Center Brand*/
+		nav.sidebar .navbar-brand, nav.sidebar .navbar-header{
+			text-align: center;
+			width: 100%;
+			margin-left: 0px;
+		}
+
+		/*Center Icons*/
+		nav.sidebar a{
+			padding-right: 13px;
+		}
+
+		/*adds border top to first nav box */
+		nav.sidebar .navbar-nav > li:first-child{
+			border-top: 1px #e5e5e5 solid;
+		}
+
+		/*adds border to bottom nav boxes*/
+		nav.sidebar .navbar-nav > li{
+			border-bottom: 1px #e5e5e5 solid;
+		}
+
+		/* Colors/style dropdown box*/
+		nav.sidebar .navbar-nav .open .dropdown-menu {
+			position: static;
+			float: none;
+			width: auto;
+			margin-top: 0;
+			background-color: transparent;
+			border: 0;
+			-webkit-box-shadow: none;
+			box-shadow: none;
+		}
+
+		/*allows nav box to use 100% width*/
+		nav.sidebar .navbar-collapse, nav.sidebar .container-fluid{
+			padding: 0 0px 0 0px;
+		}
+
+		/*colors dropdown box text */
+		.navbar-inverse .navbar-nav .open .dropdown-menu>li>a {
+			color: #777;
+		}
+
+		/*gives sidebar width/height*/
+		nav.sidebar{
+			width: 200px;
+			height: 100%;
+			margin-left: -160px;
+			float: left;
+			z-index: 8000;
+			margin-bottom: 0px;
+		}
+
+		/*give sidebar 100% width;*/
+		nav.sidebar li {
+			width: 100%;
+		}
+
+		/* Move nav to full on mouse over*/
+		nav.sidebar:hover{
+			margin-left: 0px;
+		}
+		/*for hiden things when navbar hidden*/
+		.forAnimate{
+			opacity: 0;
+		}
+	}
+
+	/* .....NavBar: Fully showing nav bar..... */
+
+	@media (min-width: 1330px) {
+
+		/*Allow main to be next to Nav*/
+		.main{
+			width: calc(100% - 200px); /*keeps 100% minus nav size*/
+			margin-left: 200px;
+		}
+
+		/*Show all nav*/
+		nav.sidebar{
+			margin-left: 0px;
+			float: left;
+		}
+		/*Show hidden items on nav*/
+		nav.sidebar .forAnimate{
+			opacity: 1;
+		}
+	}
+
+	nav.sidebar .navbar-nav .open .dropdown-menu>li>a:hover, nav.sidebar .navbar-nav .open .dropdown-menu>li>a:focus {
+		color: #CCC;
+		background-color: transparent;
+	}
+
+	nav:hover .forAnimate{
+		opacity: 1;
+	}
+	section{
+		padding-left: 15px;
+	}
+    </style>
+    
+</head>
+<body ng-controller="accCtrl" ng-init="initialize();">
+    <div >
+        
+
+        <img src="images/001.jpg" style="width:100%; height:250px" />
+            
+           
+                    <nav class="navbar nav"style="border:solid;border-color:#7cb3e1;padding:0px 70px 0px 30px">
+                        <div class="container-fluid">
+                            <ul class="nav navbar-nav">
+                                <li class="active"><a href="/"><b>Home</b><span class="glyphicon glyphicon-home"></span></a></li>
+                                <li ng-click="toSignInOrDashboard()" ng-show="hideSignInOptions"><a href="#">Admin</a></li>
+                                <li ng-click="toSignInOrDashboard()" ng-show="hideSignInOptions"><a href="#">Other</a></li>
+                             </ul>
+                            <ul class=" nav navbar-nav navbar-right">
+
+                                <li ng-hide="hideSignInOptions">
+                                    <a id="btnSignIn" href="#" data-toggle="modal" data-target="#SignInModal">Sign In</a>
+                                </li>
+                                <li ng-hide="hideSignInOptions">
+                                    <a id="account" href="#" data-toggle="modal" data-target="#newAccModal">Create Account</a>
+                                </li>
+                                <li ng-show="hideSignInOptions">
+                                    <a id="lout" href="#" ng-click="logout()">Log Out</a>
+                                </li>
+                                <li>
+                                    <a href="ClientDashBoard.html#/JobList">Career</a>
+                                </li>
+
+                            </ul>
+</div>
+                    </nav>
+
+
+        <div>
+
+                <!-- tabs -->
+                        <nav class="navbar navbar-brand sidebar" role="navigation">
+                            <div class="container-fluid">
+                                <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+                                    <ul class="nav navbar-nav">
+                                        <li><a href="#about" data-toggle="tab">About Us<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-book"></span></a></li>
+                                        <li><a href="#services" data-toggle="tab">Servies<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-wrench"></span></a></li>
+                                        <li>
+                                            <a href="#BusinessProcess" data-toggle="tab">Business Process<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-briefcase"></span></a>
+                                        </li>
+                                        <li class="active"><a href="#contact" data-toggle="tab">Contact<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-earphone"></span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
+                        <div class="tab-content">
+                            <div class="tab-pane" id="about">
+                                <div class="">
+                                    <strong>
+                                        <font size="4" color="#003300">
+                                            About
+                                            us
+                                        </font>
+                                    </strong>
+                                    <p class="MsoNormal" style="LINE-HEIGHT: 150%; TEXT-ALIGN: justify; tab-stops: 1.5in">
+                                        <font face="Verdana" size="2" color="gray">
+                                            IWIZ
+                                            is a technology powerhouse with proven experience and capability to deliver
+                                            business results to clients. We are pioneered to generate novel concepts
+                                            through our innovation to deliver unparalleled quality from the year of 2000.
+                                            Our people solve complex and difficult problems that are critical to the
+                                            success-and even the survival-of our clients. We use best-in-class components
+                                            and apply technology at scale and in sophisticated production environments. We
+                                            provide end-to-end business solutions that leverage technologies and solutions
+                                            for dynamic environment to harmonize business and technology.
+                                        </font><b><span style="FONT-SIZE: 14pt; LINE-HEIGHT: 150%"><o:p></o:p></span></b>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="services">
+                                <div class="">
+                                    <p class="MsoNormal" style="LINE-HEIGHT: 150%; tab-stops: 1.5in"><font face="Verdana" size="4" color="#003300"><strong>Servies</strong></font></p>
+                                    <p class="MsoNormal" style="LINE-HEIGHT: 150%; tab-stops: 1.5in">
+                                        <font face="Verdana" color="#003300" size="2">
+                                            <strong>
+                                                Application
+                                                services
+                                            </strong>
+                                        </font>
+                                    </p>
+
+                                    <font color="gray" size="2">
+
+                                        <p class="MsoNormal" style="LINE-HEIGHT: 200%; TEXT-ALIGN: justify">
+                                            <span style="FONT-SIZE: 10pt; COLOR: gray; LINE-HEIGHT: 200%">
+                                                Conventional
+                                                outsourcing can decrease your costs, but it can't increase your performance. So
+                                                we are using contemporary outsourcing practices, which can outperform your
+                                                competition, and yourselves. The time is right to explore new ways to achieve
+                                                more values and our approach takes application development and maintenance to
+                                                the next level. Ø Application Development Ø Wireless Applications Ø Enterprise
+                                                Resource Planning Ø Portals, content and E-commerce Ø Security and privacy
+                                                services
+                                            </span>
+                                        </p>
+
+                                    </font>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="contact">
+                                <div class="">
+                                    <p><strong><font color="#003300">Contact us</font></strong></p>
+                                    <p>
+                                        <font color="#0099ff" size="2">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="gray">
+                                                &nbsp;
+                                                No.78, 3 Rd Floor, Panthapath
+                                            </font>
+                                        </font>
+                                    </p>
+                                    <p>
+                                        <font color="gray" size="2">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dhaka
+                                            - 1211. PH : 02-953606
+                                        </font>
+                                    </p>
+                                    <p>
+                                        <font size="2">
+                                            <font color="gray">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </font><a href="http://www.iwizsolutions.com"><font color="gray">www.iwizsolutions.com</font></a>
+                                        </font>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="BusinessProcess">
+                                <div class="">
+                                    <p>
+                                        <font color="#0099ff" size="2">
+                                            <font color="#003300"><strong>Business Process Outsourcing</strong></font>
+                                        </font>
+                                    </p>
+                                    <font color="gray">
+                                        <p class="MsoNormal" style="LINE-HEIGHT: 200%; TEXT-ALIGN: justify">
+                                            <span style="FONT-SIZE: 10pt; COLOR: gray; LINE-HEIGHT: 200%">
+                                                Our
+                                                BPO provides continually asses new opportunities in industry-specific as well
+                                                as cross industry solutions that enable clients to extend the core
+                                                competencies, achieve operational excellence and outperform the competition. Ø
+                                                Aerospace and Defense Ø Automotive Ø Banking Ø Insurance Ø Retail Ø
+                                                Manufacturing Ø Healthcare and life sciences Ø Logistics Ø Energy Ø Media and
+                                                Entertainment Ø Governmental and Public Institutions Ø Educational sectors Ø
+                                                Travel
+                                            </span>
+                                        </p>
+                                    </font>
+                                </div>
+                            </div>
+                        </div>
+             
+                                
+                                <!-- /tabs -->
+                           
+                    </div>
+
+        
+
+                    <div class="container body-content">
+                        <form name="form1" novalidate ng-controller="accCtrl">
+                            <!---------------------------------- modal for Create Account ---------------------------------->
+                            <div class="modal fade" tabindex="-1" id="newAccModal" role="dialog">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title">Create New Account</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-horizontal">
+                                                <!-------------------------- Name-------------------------------->
+                                                <div class="form-group" ng-class="{'has-error':form1.Name.$invalid &&
+                                 form1.Name.$dirty}">
+                                                    <label for="input2" class="col-sm-2 control-label">Name</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="input2" name="Name" ng-model="current.UserName" placeholder="User Name" ng-maxlength="20" ng-minlength="3" required>
+                                                        <span class="help-block has-error">
+                                                            <span ng-show="form1.Name.$error.required">User name is required</span>
+                                                            <span ng-show="form1.Name.$error.minlength">User name is must be atleast 4 charecters in length</span>
+                                                            <span ng-show="form1.Name.$error.maxlength">User name is can not exceed 20 charecters in length</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <!-------------------------- Email-------------------------------->
+                                                <div class="form-group" ng-class="{'has-error':form1.Email.$invalid &&
+                                 form1.Email.$dirty}">
+                                                    <label for="input3" class="col-sm-2 control-label">Email</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="email" class="form-control" id="input3" name="Email" ng-model="current.Email" placeholder="Email" required>
+                                                        <span class="help-block has-error">
+                                                            <span ng-show="form1.Email.$error.required">Mail address is required</span>
+                                                            <span ng-show="form1.Email.$error.email">Invalid email Address</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <!-------------------------- User Password-------------------------------->
+                                                <div class="form-group" ng-class="{'has-error':form1.uPassword.$invalid &&
+                                 form1.uPassword.$dirty}">
+                                                    <label for="input4" class="col-sm-2 control-label">Password</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="password" class="form-control" id="input4" name="uPassword" ng-model="current.UserPassword" placeholder="Password" required>
+                                                        <span class="help-block has-error">
+                                                            <span ng-show="form1.uPassword.$error.required">Password is required</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <!-------------------------- Role-------------------------------->
+                                                <div class="form-group" ng-class="{'has-error':form1.uRole.$invalid &&
+                                 form1.uRole.$dirty}">
+                                                    <label for="input5" class="col-sm-2 control-label">User Role</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="input5" name="uRole" ng-model="current.userRole" placeholder="User Role" ng-maxlength="20" required>
+                                                        <span class="help-block has-error">
+                                                            <span ng-show="form1.uRole.$error.required">User Role is required</span>
+                                                            <span ng-show="form1.uRole.$error.maxlength">User Role can not exceed 20 charecters in length</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" ng-click="signUpUser();" ng-disabled="form1.$invalid">Save</button>
+                                            <!---->
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+                            <!---------------------------------- End of modal for Create Account  ---------------------------------->
+                        </form>
+                        <form name="form2" novalidate ng-controller="accCtrl">
+                            <!---------------------------------- modal for Sign In ---------------------------------->
+                            <div class="modal fade" tabindex="-1" id="SignInModal" role="dialog">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title">Sign In</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-horizontal">
+
+
+                                                <!-------------------------- Email-------------------------------->
+                                                <div class="form-group" ng-class="{'has-error':form2.sEmail.$invalid &&
+                                  form2.sEmail.$dirty}">
+                                                    <label for="input1" class="col-sm-2 control-label">Email</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="email" class="form-control" id="input1" name="sEmail" ng-model="lg.Email" placeholder="Email" required>
+                                                        <span class="help-block has-error">
+                                                            <span ng-show="form2.sEmail.$error.required">Mail address is required</span>
+                                                            <span ng-show="form2.sEmail.$error.email">Invalid email Address</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <!-------------------------- User Password-------------------------------->
+                                                <div class="form-group" ng-class="{'has-error':form2.uPasswordSign.$invalid &&
+                                 form2.uPasswordSign.$dirty}">
+                                                    <label for="input2" class="col-sm-2 control-label">Password</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="password" class="form-control" id="input2" name="uPasswordSign" ng-model="lg.UserPassword" placeholder="Password" required>
+                                                        <span class="help-block has-error">
+                                                            <span ng-show="form2.uPasswordSign.$error.required">Password is required</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div style="color:red">
+                                                    {{message}}
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+
+                                            <button type="button" class="btn btn-primary" ng-click="login()" ng-disabled="form2.$invalid">Log In</button>
+
+
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+                            <!---------------------------------- End of modal for Create Account  ---------------------------------->
+                        </form>
+                        <hr />
+
+                        
+                    </div>
+                    <!--</form>-->
+        </div>
+   
+</body>
+</html>
+
+

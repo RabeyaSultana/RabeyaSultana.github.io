@@ -1,0 +1,262 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+
+    <link href="../Content/bootstrap.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-1.9.1.js"></script>
+    <script src="../Scripts/bootstrap.js"></script>
+
+</head>
+<body class="container" style="margin-top:50px;margin-right:300px;margin-left:150px" ng-controller="hrmCtrl">
+
+    <form name="form1" novalidate class="form-horizontal" style="padding-bottom:50px;padding-left:50px;padding-top:40px ;background-color: cadetblue">
+
+        <div ng-init="getallCandidate();">
+
+            <fieldset>
+
+
+                <h1 style="text-align: center; font-family:Arial; color: black; font-style: oblique;border-bottom:solid">Application Form</h1>
+                <div>
+                    <div class="form-group" ng-class="{'has-error':form1.Dasignation.$invalid &&
+                                 form1.Dasignation.$dirty}">
+                        <label class="control-label col-xs-3" for="inputFn">Post Name:</label>
+                        <span ng-show="form1.Dasignation.$error.required">*</span>
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control" id="inputFn" name="Dasignation" ng-model="currentCant.Dasignation" placeholder="" required>
+
+                        </div>
+                    </div>
+                    <h3 style="text-align:left;color:burlywood;">General Information</h3>
+
+                    <div class="form-group" ng-class="{'has-error':form1.Name.$invalid &&
+                                 form1.Name.$dirty}">
+                        <label class="control-label col-xs-3" for="inputN">Applicant Name:</label>
+                        <span ng-show="form1.Name.$error.required">*</span>
+                        <div class="col-xs-6">
+                            <input type="text" class="form-control" id="inputN" name="Name" ng-model="currentCant.name" placeholder="" ng-maxlength="20" ng-minlength="3" required>
+                            <span class="help-block has-error">
+                                <span ng-show="form1.Name.$error.minlength">Name is must be atleast 4 charecters in length</span>
+                                <span ng-show="form1.Name.$error.maxlength">Name is can not exceed 20 charecters in length</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-class="{'has-error':form1.FnName.$invalid &&
+                                 form1.FnName.$dirty}">
+                        <label class="control-label col-xs-3" for="inputFn">Father Name:</label>
+                        <span ng-show="form1.FnName.$error.required">*</span>
+                        <div class="col-xs-6">
+                            <input type="text" class="form-control" id="inputFn" name="FnName" ng-model="currentCant.fatherName" placeholder="" required>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-class="{'has-error':form1.MnName.$invalid &&
+                                 form1.MnName.$dirty}">
+                        <label class="control-label col-xs-3" for="inputN">Mother Name:</label>
+                        <span ng-show="form1.MnName.$error.required">*</span>
+                        <div class="col-xs-6">
+                            <input type="text" class="form-control" id="inputMn" name="MnName" ng-model="currentCant.motherName" placeholder="" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-class="{'has-error':form1.DOB.$invalid &&
+                                 form1.DOB.$dirty}">
+                        <label class="control-label col-xs-3">Date of Birth:</label>
+                        <span ng-show="form1.DOB.$error.required">*</span>
+                        <div class="col-xs-3">
+                            <input type="date" class="form-control" id="inputDt" name="DOB" ng-model="currentCant.dob" placeholder="" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-xs-3">Gender:</label>
+                        <div class="col-xs-2">
+                            <label class="radio-inline">
+                                <input type="radio" name="genderRadios" ng-model="currentCant.gender" value="male"> Male
+                            </label>
+                        </div>
+                        <div class="col-xs-2">
+                            <label class="radio-inline">
+                                <input type="radio" name="genderRadios" ng-model="currentCant.gender" value="female"> Female
+                            </label>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group" ng-class="{'has-error':form1.cemail.$invalid &&
+                                 form1.cemail.$dirty}">
+                        <label class="control-label col-xs-3" for="inputEmail">Email Address:</label>
+                        <span ng-show="form1.cemail.$error.required">*</span>
+                        <div class="col-xs-6">
+                            <input type="email" class="form-control" name="cemail" ng-model="currentCant.email" id="inputEmail" placeholder="" required>
+                            <span class="help-block has-error">
+                                <span ng-show="form1.cemail.$error.email">Invalid email Address</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-class="{'has-error':form1.pNo.$invalid &&
+                                 form1.pNo.$dirty}">
+                        <label class="control-label col-xs-3" for="phoneNumber">Phone Number:</label>
+                        <span ng-show="form1.pNo.$error.required">*</span>
+                        <div class="col-xs-6">
+                            <input type="text" class="form-control" name="pNo" ng-model="currentCant.mobNo" id="phoneNumber" placeholder="" required>
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group" ng-class="{'has-error':form1.Nation.$invalid &&
+                                 form1.Nation.$dirty}">
+                        <label class="control-label col-xs-3" for="inputNa">Nationality:</label>
+                        <span ng-show="form1.Nation.$error.required">*</span>
+                        <div class="col-xs-6">
+                            <input type="text" class="form-control" name="Nation" ng-model="currentCant.nationality" id="inputNa" placeholder="">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="inputNN">NID Number:</label>
+
+                        <div class="col-xs-6">
+                            <input type="text" class="form-control" name="NID" ng-model="currentCant.NID" id="inputNN" placeholder="" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-xs-3">Marritual Status:</label>
+                        <div class="col-xs-2">
+                            <label class="radio-inline">
+                                <input type="radio" name="MarriedRadios" ng-model="currentCant.marritualStatus" value="Single"> Single
+                            </label>
+                        </div>
+                        <div class="col-xs-2">
+                            <label class="radio-inline">
+                                <input type="radio" name="MarriedRadios" ng-model="currentCant.marritualStatus" value="Married"> Married
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-xs-3">Religion:</label>
+                        <div class="col-xs-3">
+                            <select class="form-control" ng-model="currentCant.religion" name="relgn">
+                                <option label="--Select One--"></option>
+                                <option>Islam</option>
+                                <option>Hindu</option>
+                                <option>Christian</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-xs-3">Quota:</label>
+                        <div class="col-xs-2">
+                            <label class="radio-inline">
+                                <input type="radio" name="FreedomRadios" ng-model="currentCant.quota" value="FreedomFighter"> Freedom Fighter
+                            </label>
+                        </div>
+                        <div class="col-xs-2">
+                            <label class="radio-inline">
+                                <input type="radio" name="FreedomRadios" ng-model="currentCant.quota" value="Handicap"> Handicap
+                            </label>
+                        </div>
+                        <div class="col-xs-2">
+                            <label class="radio-inline">
+                                <input type="radio" name="FreedomRadios" ng-model="currentCant.quota" value="None"> None
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <!--=========================================================-->
+
+                <div style="width:50%;float:left" ng-class="{'has-error':form1.Address.$invalid &&
+                                 form1.Address.$dirty}">
+                    <label class="control-label col-xs-3" for="inputTemAdd">Present Address</label>
+                    <span ng-show="form1.Address.$error.required">*</span>
+                    <div class="col-xs-6">
+                        <textarea class="form-control" name="Address" ng-model="currentCant.TemAddress" id="inputTemAdd" placeholder="" required></textarea>
+                    </div>
+                </div>
+
+                <!------------------------------------------------------------------------>
+                <div style="width:50%;float:left" ng-class="{'has-error':form1.pAddress.$invalid &&
+                                 form1.pAddress.$dirty}">
+                    <label class="control-label col-xs-3" for="inputParAdd">Parmanent Address</label>
+                    <span ng-show="form1.pAddress.$error.required">*</span>
+                    <div class="col-xs-6">
+                        <textarea class="form-control" name="pAddress" ng-model="currentCant.ParAddress" id="inputParAdd" placeholder="" required></textarea>
+                    </div>
+                </div>
+                <br /><br /><br /><br />
+                <div>
+                    <h3 style="text-align:left; color:burlywood;">Last Academic Qualification</h3>
+                    <div style="width:50%;float:left" class="form-group" ng-class="{'has-error':form1.Exam.$invalid &&
+                                 form1.Exam.$dirty}">
+                        <label class="control-label col-xs-4" for="inputExm">Examination </label>
+                        <span ng-show="form1.Exam.$error.required">*</span>
+                        <div class="col-xs-6">
+                            <input type="text" class="form-control" name="Exam" ng-model="currentCant.examination" id="inputExm" placeholder="" required>
+                        </div>
+                    </div>
+                    <div style="width:50%;float:left" class="form-group" ng-class="{'has-error':form1.rslt.$invalid &&
+                                 form1.rslt.$dirty}">
+                        <label class="control-label col-xs-4" for="inputRst">Result</label>
+                        <span ng-show="form1.rslt.$error.required">*</span>
+                        <div class="col-xs-6">
+                            <input type="text" class="form-control" name="rslt" ng-model="currentCant.result" id="inputRst" placeholder="" required>
+                        </div>
+                    </div>
+                    <div style="width:50%;float:left" class="form-group" ng-class="{'has-error':form1.Board.$invalid &&
+                                 form1.Board.$dirty}">
+                        <label class="control-label col-xs-4" for="inputUni">Board/University</label>
+                        <span ng-show="form1.Board.$error.required">*</span>
+                        <div class="col-xs-6">
+                            <input type="text" class="form-control" name="Board" ng-model="currentCant.university" id="inputUni" placeholder="" required>
+                        </div>
+                    </div>
+                    <div style="width:50%;float:left" class="form-group" ng-class="{'has-error':form1.psYear.$invalid &&
+                                 form1.psYear.$dirty}">
+                        <label class="control-label col-xs-4" for="inputYear">Passing Year</label>
+                        <span ng-show="form1.psYear.$error.required">*</span>
+                        <div class="col-xs-6">
+                            <input type="text" class="form-control" name="psYear" ng-model="currentCant.passingYear" id="inputYear" placeholder="" required>
+                        </div>
+                    </div>
+                    <div style="width:50%;float:left" class="form-group" ng-class="{'has-error':form1.group.$invalid &&
+                                 form1.group.$dirty}">
+                        <label class="control-label col-xs-4" for="inputSub">group/Subject</label>
+                        <span ng-show="form1.group.$error.required">*</span>
+                        <div class="col-xs-6">
+                            <input type="text" name="group" class="form-control" ng-model="currentCant.groupSubject" id="inputSub" placeholder="" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="imginp" class="col-sm-2 control-label">Photo</label>
+                    <div class="col-sm-3">
+                        <img id="pic" ng-src="data:image/png;base64,{{currentCant.eImage}}" alt="" width="150" height="150" style="margin-left:50px;" /><br>
+
+                        <input type="file" class="form-control" id="imginp" onchange="readURL(this,'pic');" name="eImage" ng-model="currentCant.eImage">
+
+                    </div>
+                </div>
+
+                <div style="color:red">
+                    {{message}}
+                </div>
+                <div class="col-sm-12">
+                    <button align="center" id="btnSave" type="submit" ng-disabled="form1.$invalid" class="btn btn-primary col-sm-2" ng-click="saveCandidate();">Submit</button>
+                </div>
+            </fieldset>
+        </div>
+        <!--</div>-->
+
+    </form>
+</body>
+</html>

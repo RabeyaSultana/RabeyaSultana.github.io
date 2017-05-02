@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+
+    <link href="../Content/bootstrap.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-1.9.1.js"></script>
+    <script src="../Scripts/bootstrap.js"></script>
+
+</head>
+<body class="container" style="margin-top:50px;margin-right:600px;margin-left:300px">
+
+
+
+        <p>
+            <strong>Search By Any:</strong>
+            <input type="text" id="txtAny" style="text-align:left" ng-model="search.cno" placeholder="" />
+
+        </p>
+        <div id="printArea" ng-init="getallCandidate();" dir-paginate="can in candidates|filter:search|filter:searchAny|orderBy:predicate:reverse|itemsPerPage:1" style="padding-left:200px;padding-right:300px">
+
+            <from>
+                <h4 class="text-center"><b><u>Admit Card</u></b> </h4>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td class="col-sm-1"><img id="picUpdates" ng-src="data:image/png;base64,{{can.eImage}}" alt="" width="120" height="120" style="margin-left:10px;" /></td>
+
+                        </tr>
+                        <tr>
+                            <td><b> Applicant Id : </b></td>
+                            <td>{{can.cno}}</td>
+                        </tr>
+
+                        <tr>
+                            <td><b> Name : </b></td>
+                            <td>{{can.name}}</td>
+                        </tr>
+
+                        <tr>
+                            <td><b> Father Name : </b></td>
+                            <td>{{can.fatherName}}</td>
+                        </tr>
+
+                        <tr>
+                            <td><b> Mother Name :</b></td>
+                            <td>{{can.motherName}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </from>
+      
+        <hr />
+
+    <div>
+        01 This admit card will be applicable for preliminary test, written examination and viva voce.<br />
+        <br />
+        02 Applicant must carry this admit card during every examination.<br />
+        <br />
+        03 Applicant must sit in the examination hall at least 30 minutes prior to preliminary test <br />and 15 minutes prior to written examination. On the day of Preliminary
+        test, it is forbidden to leave the hall before the test ends.<br />
+        <br />
+         04 Applicant is prohibited from bringing books, bag, mobile phone or any other type of communication device. Applicant is not allowed to use any type of
+        calculator in Preliminary Test but allowed to use non-scientific calculator in written exam.<br />
+        <br />
+        05 Applicant must use the same signature for application, attendance sheet and answer script.<br />
+        <br />
+         06 Applicant will not be allowed entry in the examination hall after distribution of the question <br />paper for preliminary test.<br />
+        <br />
+          07 Applicant must use black ink ball point pen to fill up all parts and circles of preliminary<br /> test answer sheet and top sheet of written answer script.<br />
+        <br />
+        08 Applicant is barred from entering the examination hall 15 minutes after the written examination starts.<br />
+        <br />
+         09 Applicant must report at least 30 minutes before the scheduled time for viva voce.<br />
+        <br /> 
+        10 In addition to his/her educational qualification and experience, an applicant must produce original copies of all necessary documents before the Viva Board.<br />
+        <br />
+        11 Invigilators in the examination hall will match the photograph of the applicant in the attendance<br /> sheet with that of the admit card before taking his/her
+        signature. Legal action will be taken against the applicant if any irregularity is detected.<br />
+        <br />
+        12 Applicant will be expelled if the general instructions are not followed or if found guilty of <br />misconduct, misbehaviour or adopting unfair means. Applicant
+        found guilty of copying, adopting any type of unfair means or misconduct will be barred from<br /> applying in any future examination conducted by the
+        Commission and will not be allowed to apply for any other posts to be advertised by the Commission. <br />Moreover, he/she may be handed over to the law
+        enforcing agency for taking legal action against him/her.
+    </div>
+    </div>
+    <br />
+    <br />
+    <div style="text-align:center">
+        <button ng-click="printIt()" class="button">Print</button>
+    </div>
+
+</body>
+</html>

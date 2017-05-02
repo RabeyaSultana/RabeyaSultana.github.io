@@ -1,0 +1,248 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+
+    <link href="../Content/bootstrap.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-1.9.1.js"></script>
+    <script src="../Scripts/bootstrap.js"></script>
+  <style>
+        td{
+           text-align:center;
+        }
+        th{
+            text-align:center;
+        }
+        thead{
+            background-color:#f28080
+        }
+   </style>
+
+</head>
+<body class="container" style="margin-top:50px;margin-right:300px;margin-left:150px" ng-controller="hrmCtrl">
+
+
+    <form class="form-horizontal">
+        <div style="background-color:#edb9b9"><h3>Applicant Information</h3></div>
+        <fieldset>
+
+            <div ng-init="getallCandidate();">
+                <div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Applicant Id</th>
+                                <th>Name</th>
+                                <th>Father Name</th>
+                                <th>Mobile Number</th>
+                                <th>Date Of Birth</th>
+                                <th>Photo</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                       
+                        <tbody dir-paginate="can in candidates|filter:search|filter:searchAny|orderBy:predicate:reverse|itemsPerPage:3">
+                            
+                            <tr>
+                                <td>{{can.cno}}</td>
+                                <td>{{can.name}}</td>
+                                <td>{{can.fatherName}}</td>
+                                <td>{{can.mobNo}}</td>
+                                <td>{{can.dob |date:'yyyy-MM-dd'}}</td>
+                                <td>
+                                    <img id="picUpdates" ng-src="data:image/png;base64,{{can.eImage}}" alt="" width="50" height="50" style="margin-left:10px;" />
+                                </td>
+                                <td>
+                                    <button id="btnEdit" type="submit" data-toggle="modal" data-target="#myModalEdit" class="btn btn-success" ng-click="queryCandidate(can.cno);">Details</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                       
+                    </table>
+                    <footer style="background-color:#f28080">***</footer>
+                </div>               
+            </div>
+        </fieldset>
+    </form>
+    <!-------------------------- Details  ------------------------->
+    <dir-pagination-controls max-size="3" direction-links="true"   boundary-links="true">
+    </dir-pagination-controls>
+
+    <div class="modal fade" tabindex="-1" id="myModalEdit" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Applicant Detail Info</h4>
+                </div>
+                <div class="modal-body">
+                    <!-------------------------- ID(Edit)  ------------------------->
+                    <div class="form-group">
+                        <label for="imginp" class="col-sm-2 control-label">Photo</label>
+                        <div class="col-sm-10">
+                            <img id="pic" ng-src="data:image/png;base64,{{currentCant.eImage}}" alt="" width="150" height="150" style="margin-left:50px;" />
+                        </div>
+                        <br />
+                        <br />
+                    </div>
+                    <br />
+                    <br />
+                    <br />
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="input1" class="col-sm-2 control-label">Id Number</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input1" name="eId" ng-model="currentCant.cno" placeholder="Id" disabled>
+                            </div>
+                        </div>
+                        <!-------------------------- Name(Edit)  ------------------------->
+                        <div class="form-group">
+                            <label for="input2" class="col-sm-2 control-label">Applicant Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input2" name="eeName" ng-model="currentCant.name" placeholder="" disabled>
+                            </div>
+                        </div>
+                        <!-------------------------- Father Name(Edit)  ------------------------->
+                        <div class="form-group">
+                            <label for="input3" class="col-sm-2 control-label">Father Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input3" name="fatherName" ng-model="currentCant.fatherName" placeholder="Email" disabled>
+                            </div>
+                        </div>
+                        <!--------------------------Mother Name (Edit)  ------------------------->
+                        <div class="form-group">
+                            <label for="input4" class="col-sm-2 control-label">Mother Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input4" ng-model="currentCant.motherName" name="motherName" placeholder="" disabled>
+                            </div>
+                        </div>
+                        <!------------------------------------------------>
+                        <div class="form-group">
+                            <label for="input5" class="col-sm-2 control-label">Email</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input5" ng-model="currentCant.email" placeholder="Department Id" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input5" class="col-sm-2 control-label">Mobile Number</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input5" ng-model="currentCant.mobNo" placeholder="Department Id" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input5" class="col-sm-2 control-label">Date Of Birth</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input5" ng-model="currentCant.dob" placeholder="Department Id" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input5" class="col-sm-2 control-label">Gender</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input5" ng-model="currentCant.gender" placeholder="" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input5" class="col-sm-2 control-label">Nationality</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input5" ng-model="currentCant.nationality" placeholder="Department Id" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input5" class="col-sm-2 control-label">NID</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input3" ng-model="currentCant.NID" placeholder="Department Id" disabled>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <label for="input5" class="col-sm-2 control-label">Religon</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input4" ng-model="currentCant.religion" placeholder="Department Id" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input5" class="col-sm-2 control-label">Marritual Status</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input5" ng-model="currentCant.marritualStatus" placeholder="" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input9" class="col-sm-2 control-label">Quota</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input6" ng-model="currentCant.quota"  placeholder="" disabled>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="input7" class="col-sm-2 control-label"> Temporary Address</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input5" ng-model="currentCant.TemAddress" placeholder="" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input5" class="col-sm-2 control-label">Parmanent Address</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input5" ng-model="currentCant.ParAddress" placeholder="" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input5" class="col-sm-2 control-label">Examination</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input5" ng-model="currentCant.examination" placeholder="" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input5" class="col-sm-2 control-label">Result</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input5" ng-model="currentCant.result" placeholder="" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input5" class="col-sm-2 control-label">University</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input5" ng-model="currentCant.university" placeholder="" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input5" class="col-sm-2 control-label">Passing Year</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input5" ng-model="currentCant.passingYear" placeholder="" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input5" class="col-sm-2 control-label">Group/Subject</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input5" ng-model="currentCant.groupSubject" placeholder="" disabled>
+                            </div>
+                        </div>
+
+                       
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+    </div>
+</body>
+</html>

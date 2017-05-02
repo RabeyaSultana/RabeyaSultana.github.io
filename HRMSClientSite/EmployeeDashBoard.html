@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        HRMS
+    </title>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <script src="Scripts/jquery-1.9.1.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+    <script src="Scripts/angular.js"></script>
+    <script src="Scripts/angular-route.js"></script>
+    <script src="Scripts/angular-resource.js"></script>
+    <script src="Scripts/angular-messages.js"></script>
+    <script src="Scripts/angular-cookies.js"></script>
+
+    <script src="Scripts/App/app.js"></script>
+    <script src="Scripts/Controller/routeCtrl.js"></script>
+    <script src="Scripts/Controller/hrmCtrl.js"></script>
+    <script src="Scripts/Factory/hrmSvc.js"></script>
+    <script src="Scripts/dirPagination.js"></script>
+    <script src="Scripts/Controller/accCtrl.js"></script>
+
+</head>
+<body style="background-color:#e0f1fe">
+
+    <form name="">
+        <div class="navbar navbar-text" style="background-color:#a8a1a1;width:98%">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+              
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="/">Home</a></li>
+                        <li>
+                            <a href="#/EmployeeDetailsList">Employee List</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#/Atten">Attendence</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container body-content">
+            <div ng-view></div>
+            <hr />
+            <footer>
+                <p>&copy;Rabeya Round 28 DITD 2016</p>
+            </footer>
+        </div>
+    </form>
+</body>
+</html>
+
+
